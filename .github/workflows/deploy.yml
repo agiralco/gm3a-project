@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted # PENTING: Ini memerintahkan jalan di laptopmu
-
+    
     steps:
       - name: Ambil kode terbaru
         uses: actions/checkout@v3
