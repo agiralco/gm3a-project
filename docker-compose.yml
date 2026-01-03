@@ -1,0 +1,7 @@
+services:
+  web-gm3a:
+    build: .
+    container_name: gm3a-container
+    restart: always
+    ports:
+      - "8082:80"
