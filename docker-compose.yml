@@ -1,12 +1,27 @@
 version: '3.8'
 
 services:
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: gm3a-nginx
+    restart: always
+    ports:
+      - "8082:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web-gm3a
+    networks:
+      - gm3a-network
+
   web-gm3a:
     build: .
     container_name: gm3a-container
     restart: always
-    ports:
-      - "8082:80"
+    #ports:
+     # - "8082:80"
+    networks:
+      - gm3a-network
 
 # --- MONITORING SERVICES MULAI DARI SINI ---
 
