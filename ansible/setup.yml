@@ -1,0 +1,95 @@
+---
+- name: Inisiasi Server Awal (Tugas No. 4 - Safe Mode)
+  hosts: myserver
+  become: yes
+  tasks:
+    # ---------------------------------------------------------
+    # LANGKAH 1: UPDATE REPOSITORY
+    # ---------------------------------------------------------
+    # Kita beri waktu cache valid 1 jam (3600 detik)
+    # Jadi kalau baru di-update, dia gak bakal download ulang
+    - name: 1. Update Repository Ubuntu
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    # ---------------------------------------------------------
+    # LANGKAH 2: GIT
+    # ---------------------------------------------------------
+    - name: 2a. Cek apakah Git sudah ada?
+      shell: git --version
+      register: git_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 2b. Install Git (HANYA JIKA belum ada)
+      apt:
+        name: git
+        state: present
+      when: git_check.rc != 0
+
+    # ---------------------------------------------------------
+    # LANGKAH 3: CURL
+    # ---------------------------------------------------------
+    - name: 3a. Cek apakah Curl sudah ada?
+      shell: curl --version
+      register: curl_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 3b. Install Curl (HANYA JIKA belum ada)
+      apt:
+        name: curl
+        state: present
+      when: curl_check.rc != 0
+
+    # ---------------------------------------------------------
+    # LANGKAH 4: UNZIP
+    # ---------------------------------------------------------
+    - name: 4a. Cek apakah Unzip sudah ada?
+      shell: unzip -v
+      register: unzip_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 4b. Install Unzip (HANYA JIKA belum ada)
+      apt:
+        name: unzip
+        state: present
+      when: unzip_check.rc != 0
+
+    # ---------------------------------------------------------
+    # LANGKAH 5: DOCKER ENGINE
+    # ---------------------------------------------------------
+    - name: 5a. Cek apakah Docker sudah ada?
+      shell: command -v docker
+      register: docker_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 5b. Install Docker.io (HANYA JIKA belum ada)
+      apt:
+        name: docker.io
+        state: present
+      when: docker_check.rc != 0
+
+    - name: 5c. Pastikan Service Docker Nyala
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # ---------------------------------------------------------
+    # LANGKAH 6: DOCKER COMPOSE (PLUGIN V2)
+    # ---------------------------------------------------------
+    - name: 6a. Cek apakah Docker Compose V2 sudah jalan?
+      shell: docker compose version
+      register: compose_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 6b. Install Docker Compose Plugin (HANYA JIKA belum ada)
+      apt:
+        name: docker-compose-plugin
+        state: present
+      when: compose_check.rc != 0
