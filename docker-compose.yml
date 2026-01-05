@@ -70,6 +70,8 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin # Password default, nanti ganti
+      - GF_SERVER_ROOT_URL=http://localhost:8082/monitoring/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
       - grafana_data:/var/lib/grafana
     networks:
