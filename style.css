@@ -3127,3 +3127,44 @@ select.form-select {
     width: 100%;
   }
 }
+
+/* Membuat Grid 3 kolom di Desktop, 2 di Tablet, 1 di HP */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.team-item {
+  text-align: center;
+  background: #f9f9f9; /* Opsional: kasih background tipis */
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Memaksa foto punya ukuran yang sama persis */
+.image-wrapper {
+  width: 100%;
+  aspect-ratio: 3/4; /* Kamu bisa ubah ke 1/1 jika ingin kotak sempurna */
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Foto akan terpotong rapi, tidak gepeng */
+  object-position: center;
+}
+
+.member-info h5 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.member-info p {
+  color: #666;
+  font-size: 0.9rem;
+}
