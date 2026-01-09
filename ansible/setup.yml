@@ -1,0 +1,94 @@
+---
+- name: Inisiasi Server Awal (Tugas No. 4 - Safe Mode)
+  hosts: myserver
+  become: yes
+  tasks:
+    # --- 1. UPDATE REPO ---
+    - name: 1. Update Repository Ubuntu
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    # --- 2. TOOLS DASAR ---
+    - name: 2a. Cek Git
+      shell: git --version
+      register: git_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 2b. Install Git (Jika belum ada)
+      apt:
+        name: git
+        state: present
+      when: git_check.rc != 0
+
+    # --- TASK BARU: DEPENDENCIES RUNNER (AMAN TANPA 'IF') ---
+    - name: 2c. Install Dependencies GitHub Runner
+      apt:
+        name:
+          - libicu-dev
+          - libssl-dev
+          - libkrb5-3
+          - zlib1g-dev
+          - liblttng-ust-dev
+          - liblttng-ust-ctl5
+        state: present
+    # Penjelasan: Modul apt otomatis skip jika sudah terinstall.
+
+    # --- 3. CURL ---
+    - name: 3a. Cek Curl
+      shell: curl --version
+      register: curl_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 3b. Install Curl (Jika belum ada)
+      apt:
+        name: curl
+        state: present
+      when: curl_check.rc != 0
+
+    # --- 4. UNZIP ---
+    - name: 4a. Cek Unzip
+      shell: unzip -v
+      register: unzip_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 4b. Install Unzip (Jika belum ada)
+      apt:
+        name: unzip
+        state: present
+      when: unzip_check.rc != 0
+
+    # --- 5. DOCKER ---
+    - name: 5a. Cek Docker
+      shell: command -v docker
+      register: docker_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 5b. Install Docker.io (Jika belum ada)
+      apt:
+        name: docker.io
+        state: present
+      when: docker_check.rc != 0
+
+    - name: 5c. Pastikan Service Docker Nyala
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # --- 6. DOCKER COMPOSE ---
+    - name: 6a. Cek Docker Compose V2
+      shell: docker compose version
+      register: compose_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: 6b. Install Docker Compose Plugin (Jika belum ada)
+      apt:
+        name: docker-compose-plugin
+        state: present
+      when: compose_check.rc != 0
