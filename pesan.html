@@ -11,11 +11,90 @@
       color: #000;
       font-family: Arial, Helvetica, sans-serif;
     }
-    header {
-      padding: 20px;
-      border-bottom: 1px solid #ccc;
-      text-align: center;
-    }
+ /* STICKY */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* GRID FIX */
+.nav-gm3a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 18px 0;
+}
+
+/* LEFT */
+.nav-left {
+  display: flex;
+  gap: 22px;
+}
+
+/* CENTER LOGO */
+.nav-center {
+  display: flex;
+  justify-content: center;
+}
+
+.brand-image {
+  height: 38px;
+}
+
+/* RIGHT */
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* NAV LINK */
+.nav-link {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #000;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+/* UNDERLINE HOVER */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* LOGIN BUTTON */
+.nav-login {
+  padding: 8px 20px;
+  border: 1.5px solid #000;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.nav-login:hover {
+  background: #000;
+  color: #fff;
+}
     .btn-black {
       background: #000;
       color: #fff;
@@ -55,23 +134,21 @@
 </head>
 <body>
 
-<header class="py-3">
-  <nav class="container d-flex align-items-center justify-content-between">
-    
-    <div class="d-flex gap-2">
-      <a href="home.html" class="btn btn-black btn-sm">Home</a>
-      <a href="collection.html" class="btn btn-black btn-sm">Collection</a>
-      <a href="index.html" class="btn btn-black btn-sm">About</a>
+<header class="header-gm3a sticky-nav">
+  <nav class="container nav-gm3a">
+
+    <div class="nav-left">
+      <a href="#" id="homeBtn" class="nav-link">Shop</a>
+      <a href="#categories" class="nav-link">Collection</a>
+
     </div>
 
-    <div class="brand-block">
-      <a href="#">
-        <img src="images/logo1.png" alt="GM3A" class="brand-image" style="height: 40px;">
-      </a>
+    <div class="nav-center">
+      <img src="images/logo1.png" alt="GM3A" class="brand-image">
     </div>
 
-    <div>
-      <a href="profil.html" class="btn btn-black btn-sm nav-login">Profil</a>
+    <div class="nav-right">
+      <a href="profil.html" class="nav-link">Profil</a>
     </div>
 
   </nav>
