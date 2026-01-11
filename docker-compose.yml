@@ -61,6 +61,21 @@ services:
     networks:
       - gm3a-network
 
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: gm3a-cadvisor
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      - gm3a-network
+
+
   grafana:
     image: grafana/grafana:latest
     container_name: gm3a-grafana
