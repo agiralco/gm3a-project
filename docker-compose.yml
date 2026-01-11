@@ -100,7 +100,7 @@ services:
     container_name: gm3a-mail
     restart: always
     environment:
-      - HTTPS=OFF           # Akses via HTTP aja biar gak ribet sertifikat
+      - HTTPS=OFF           # Akses via HTTP
       - TZ=Asia/Jakarta
       - DISABLE_CLAMAV=TRUE # MATIKAN ANTIVIRUS
     ports:
@@ -109,7 +109,7 @@ services:
       - "143:143"   # Pintu Baca Surat (IMAP)
       - "8081:80"   # Pintu Admin/Webmail (Akses via Browser)
     volumes:
-      - ./mail-data:/data # Simpan surat-surat di folder ini
+      - /home/agira662/gm3a-storage/mail:/data # Simpan surat-surat di folder ini
     networks:
       - gm3a-network
 
