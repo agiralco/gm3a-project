@@ -96,7 +96,7 @@ services:
 
 # --- MAIL SERVER ---
   mailserver:
-    image: analytik/poste.io:latest
+    image: analogic/poste.io:latest
     container_name: gm3a-mail
     restart: always
     environment:
