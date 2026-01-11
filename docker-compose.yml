@@ -14,6 +14,7 @@ services:
     networks:
       - gm3a-network
 
+
   web-gm3a:
     build: .
     container_name: gm3a-container
@@ -43,6 +44,7 @@ services:
     networks:
       - gm3a-network
 
+
   node-exporter:
     image: prom/node-exporter:latest
     container_name: gm3a-node-exporter
@@ -61,6 +63,21 @@ services:
     networks:
       - gm3a-network
 
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: gm3a-cadvisor
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      - gm3a-network
+
+
   grafana:
     image: grafana/grafana:latest
     container_name: gm3a-grafana
@@ -74,6 +91,25 @@ services:
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
       - grafana_data:/var/lib/grafana
+    networks:
+      - gm3a-network
+
+# --- MAIL SERVER ---
+  mailserver:
+    image: analogic/poste.io:latest
+    container_name: gm3a-mail
+    restart: always
+    environment:
+      - HTTPS=OFF           # Akses via HTTP aja biar gak ribet sertifikat
+      - TZ=Asia/Jakarta
+      - DISABLE_CLAMAV=TRUE # MATIKAN ANTIVIRUS
+    ports:
+      - "25:25"     # Pintu Masuk Surat (SMTP)
+      - "110:110"   # Pintu Ambil Surat (POP3)
+      - "143:143"   # Pintu Baca Surat (IMAP)
+      - "8081:80"   # Pintu Admin/Webmail (Akses via Browser)
+    volumes:
+      - ./mail-data:/data # Simpan surat-surat di folder ini
     networks:
       - gm3a-network
 
